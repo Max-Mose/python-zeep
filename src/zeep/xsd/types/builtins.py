@@ -123,7 +123,8 @@ class DateTime(BuiltinType, AnySimpleType):
 
     @check_no_collection
     def xmlvalue(self, value):
-
+        #convert incoming string to datetime object
+        value = datetime.datetime.strftime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
         # Bit of a hack, since datetime is a subclass of date we can't just
         # test it with an isinstance(). And actually, we should not really
         # care about the type, as long as it has the required attributes
@@ -132,7 +133,7 @@ class DateTime(BuiltinType, AnySimpleType):
                 getattr(value, 'hour', 0),
                 getattr(value, 'minute', 0),
                 getattr(value, 'second', 0)))
-
+                
         if getattr(value, 'microsecond', 0):
             return isodate.isostrf.strftime(value, '%Y-%m-%dT%H:%M:%S.%f%Z')
         return isodate.isostrf.strftime(value, '%Y-%m-%dT%H:%M:%S%Z')
