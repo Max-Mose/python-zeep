@@ -3,6 +3,7 @@ import datetime
 import math
 import re
 from decimal import Decimal as _Decimal
+import dateutil.parser
 
 import isodate
 import pytz
@@ -124,7 +125,8 @@ class DateTime(BuiltinType, AnySimpleType):
     @check_no_collection
     def xmlvalue(self, value):
         #convert incoming string to datetime object
-        value = datetime.datetime.strftime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
+        value = dateutil.parser.parse(value)
+
         # Bit of a hack, since datetime is a subclass of date we can't just
         # test it with an isinstance(). And actually, we should not really
         # care about the type, as long as it has the required attributes
