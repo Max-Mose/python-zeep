@@ -131,6 +131,15 @@ class SoapBinding(Binding):
         :type response: requests.Response
 
         """
+
+        # If authentication fails for user credentials 
+        if response.status_code == 401:
+            raise Fault(
+                message='Unauthorized',
+                code=401,
+                actor=None,
+                detail=response.content)
+
         if response.status_code != 200 and not response.content:
             raise TransportError(
                 u'Server returned HTTP status %d (no content available)'
