@@ -124,8 +124,11 @@ class DateTime(BuiltinType, AnySimpleType):
 
     @check_no_collection
     def xmlvalue(self, value):
-        #convert incoming string to datetime object
-        value = dateutil.parser.parse(value)
+        #convert incoming string to datetime object, return empty string if value is blank
+        if not value:
+            return ""
+        else:
+            value = dateutil.parser.parse(value)
 
         # Bit of a hack, since datetime is a subclass of date we can't just
         # test it with an isinstance(). And actually, we should not really
